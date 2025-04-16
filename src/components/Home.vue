@@ -225,7 +225,6 @@ const newTask = ref({
 const fetchTasks = async () => {
   try {
     tasks.value = await getTasks()
-    console.log('tasks', tasks.value)
   } catch (error) {
     console.error('Erro ao carregar tasks', error)
   }
@@ -362,7 +361,6 @@ const getStatusLabel = (status) => {
 }
 
 const canMoveTask = (event, currentStatus) => {
-  console.log('currentStatus', currentStatus)
   return currentStatus !== 'completed'
 }
 

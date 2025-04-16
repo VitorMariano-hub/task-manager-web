@@ -6,13 +6,13 @@
   <span class="text-md font-bold self-end">Daily Task Manager</span>
 </div>
 
-    <nav class="flex-1 p-4 space-y-4">
+    <nav class="flex-1 p-4 space-y-4 ">
       <button
         class="w-full text-left px-4 py-2 rounded transition"
-        :class="isActive('/app') ? 'bg-slate-700' : 'hover:bg-slate-700'"
+        :class="isActive('/app') ? 'bg-slate-700' : 'hover:bg-slate-600'"
         @click="goTo('/app')"
       >
-        Home
+        Tarefas
       </button>
     </nav>
 
@@ -20,7 +20,7 @@
       <button
         @click="logout"
         :disabled="isLoggingOut"
-        class="w-full text-left px-4 py-2 bg-slate-600 hover:bg-red-600 rounded text-white transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="w-full text-left px-4 py-2 bg-slate-800 hover:bg-slate-600 rounded text-white transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <svg
           v-if="isLoggingOut"
