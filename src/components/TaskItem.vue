@@ -27,7 +27,7 @@
 
       <!-- Badge com inicial (mockada com nome do responsável, se tiver) -->
       <span
-        class="bg-indigo-600 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs"
+        class="bg-orange-600 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs"
       >
         {{ getInitials(task.assigned_to || task.title) }}
       </span>

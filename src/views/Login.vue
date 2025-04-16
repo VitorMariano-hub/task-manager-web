@@ -1,7 +1,7 @@
 <template>
-  <div class="p-6 bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 min-h-screen flex justify-center items-center">
+  <div class="p-6 bg-gradient-to-br from-slate-800 via-slate-600 to-slate-700 min-h-screen flex justify-center items-center">
     <div class="bg-white p-8 rounded-lg shadow-lg w-96">
-      <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">Login</h2>
+      <h2 class="text-2xl font-bold text-center text-slate-800 mb-6">Login</h2>
       <form @submit.prevent="handleLogin">
         <!-- Input de email -->
         <div class="mb-4">
@@ -31,7 +31,7 @@
         <div class="flex justify-center">
           <button
             type="submit"
-            class="py-2 px-4 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg w-full"
+            class="py-2 px-4 bg-teal-500 hover:bg-teal-700 text-white rounded-lg w-full"
           >
             Entrar
           </button>

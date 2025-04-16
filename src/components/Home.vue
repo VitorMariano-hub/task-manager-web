@@ -1,11 +1,11 @@
 <template>
-  <div class="p-6 bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 min-h-screen">
+  <div class="p-6 bg-gradient-to-br from-slate-800 via-slate-600 to-slate-700 min-h-screen">
     <div class="flex gap-6 overflow-x-auto pb-4">
       <div
         v-for="(group, status) in groupedTasks"
         :key="status"
         class="flex-shrink-0 w-80 bg-white rounded-xl shadow-lg p-4 space-y-4 border border-gray-200"
-        :style="{ minHeight: 'calc(100vh - 60px)', maxHeight: 'calc(100vh - 60px)' }" 
+        :style="{ minHeight: 'calc(100vh - 50px)', maxHeight: 'calc(100vh - 50px)' }" 
         :data-status="status"
         @dragover.prevent="handleDragOver"
         @drop="handleDrop"
@@ -14,7 +14,7 @@
         <h2 class="text-lg font-bold text-gray-700 tracking-wide flex items-center justify-between">
           {{ getStatusLabel(status) }}
           <!-- Badge opcional com quantidade -->
-          <span class="bg-gradient-to-br from-indigo-300 via-purple-300 to-pink-300 text-white text-xs px-2 py-0.5 rounded-full">
+          <span class="bg-slate-200 text-slate-800 text-xs px-2 py-0.5 rounded-full">
             {{ group.length }}
           </span>
         </h2>
@@ -22,12 +22,12 @@
         <button
           v-if="status === 'pending'"
           @click="openModal"
-          class="mt-2 w-full py-2 text-sm bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg transition"
+          class="mt-2 w-full py-2 text-sm bg-teal-500 hover:bg-teal-700 text-white rounded-lg transition"
         >
           + Nova Tarefa
         </button>
         <!-- Lista de tarefas -->
-        <div class="flex-1 overflow-y-auto custom-scrollbar p-2" :style="{ maxHeight: 'calc(100vh - 150px)' }">
+        <div class="flex-1 overflow-y-auto custom-scrollbar p-2" :style="{ maxHeight: 'calc(100vh - 200px)' }">
           <draggable
             :list="group"
             :group="{ name: 'tasks' }"
@@ -49,27 +49,27 @@
     </div>
 
     <!-- Modal de criação de tarefa -->
-    <div v-if="isModalOpen" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-1">
+    <div v-if="isModalOpen" class="fixed inset-0 flex items-center justify-center">
       <!-- Modal com borda suave e sombra -->
-      <div class="bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200 p-6 rounded-2xl shadow-md border border-gray-300 w-96">
-        <h2 class="text-lg font-bold text-gray-800 mb-4">Nova Tarefa</h2>
+      <div class="bg-slate-700 p-6 rounded-2xl shadow-md w-96 ">
+        <h2 class="text-lg font-bold text-white mb-4">Nova Tarefa</h2>
         <form @submit.prevent="createTask">
           <div class="mb-4">
-            <label for="taskName" class="block text-sm font-semibold text-gray-800">Titulo da Tarefa</label>
+            <label for="taskName" class="block text-sm font-semibold text-white">Titulo da Tarefa</label>
             <input
               type="text"
               id="taskName"
               v-model="newTask.title"
-              class="mt-1 p-2 w-full border border-gray-500 rounded-lg"
+              class="mt-1 p-2 w-full text-slate-300 border border-white rounded-lg"
               required
             />
           </div>
           <div class="mb-4">
-            <label for="taskDescription" class="block text-sm font-semibold text-gray-800">Descrição</label>
+            <label for="taskDescription" class="block text-sm font-semibold text-white">Descrição</label>
             <textarea
               id="taskDescription"
               v-model="newTask.description"
-              class="mt-1 p-2 w-full border border-gray-500 rounded-lg"
+              class="mt-1 p-2 w-full border border-white rounded-lg text-slate-300"
               rows="4"
             ></textarea>
           </div>
@@ -77,13 +77,13 @@
             <button
               type="button"
               @click="closeModal"
-              class="text-sm text-gray-600 hover:text-gray-800"
+              class="text-sm bg-slate-600 hover:bg-slate-700 py-2 px-4 rounded-lg text-white"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              class="py-2 px-4 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg transition"
+              class="py-2 px-4 bg-teal-500 hover:bg-teal-700 text-white rounded-lg transition"
             >
               Criar
             </button>
