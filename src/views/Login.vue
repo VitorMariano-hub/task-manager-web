@@ -31,10 +31,32 @@
         <div class="flex justify-center">
           <button
             type="submit"
-            class="py-2 px-4 bg-teal-500 hover:bg-teal-700 text-white rounded-lg w-full"
-          >
-            Entrar
-          </button>
+            :disabled="isLoggingIn"
+            class="py-2 px-4 bg-teal-500 hover:bg-teal-700 text-white rounded-lg w-full flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+            <svg
+                v-if="isLoggingIn"
+                class="animate-spin h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+            >
+                <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+                ></circle>
+                <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8z"
+                ></path>
+            </svg>
+            <span>{{ isLoggingIn ? 'Entrando...' : 'Entrar' }}</span>
+            </button>
         </div>
       </form>
       <!-- Link para cadastro (opcional) -->
@@ -53,8 +75,11 @@ import { login } from '../services/api'
 const email = ref('')
 const password = ref('')
 const router = useRouter()
+const isLoggingIn = ref(false)
 
 const handleLogin = async () => {
+  isLoggingIn.value = true
+
   try {
     const data = await login({ email: email.value, password: password.value })
     localStorage.setItem('auth', data.token)
@@ -62,6 +87,9 @@ const handleLogin = async () => {
   } catch (error) {
     alert('Login inválido!')
     console.error(error)
+  } finally {
+    isLoggingIn.value = false
   }
 }
+
 </script>

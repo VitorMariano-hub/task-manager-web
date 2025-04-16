@@ -19,7 +19,7 @@
       <!-- Botão deletar -->
       <button
         class="text-red-500 hover:text-red-600"
-        @click="$emit('delete', task.id)"
+        @click="$emit('delete', task)"
         title="Excluir tarefa"
       >
         🗑️
@@ -38,7 +38,9 @@
 <script setup>
 defineProps(['task'])
 defineEmits(['delete', 'dragstart'])
-
+const handleDelete = () => {
+  emit('delete', task)
+}
 const getInitials = (name) => {
   return name
     ? name

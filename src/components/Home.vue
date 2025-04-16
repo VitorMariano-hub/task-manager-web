@@ -38,7 +38,7 @@
               <div :data-id="element.id">
                 <TaskItem
                   :task="element"
-                  @delete="deleteTask"
+                  @delete="confirmDeleteTask"
                   @dragstart="(e) => onDragStart(e, element.id)"
                 />
               </div>
@@ -83,14 +83,81 @@
             </button>
             <button
               type="submit"
-              class="py-2 px-4 bg-teal-500 hover:bg-teal-700 text-white rounded-lg transition"
+              class="py-2 px-4 bg-teal-500 hover:bg-teal-700 text-white rounded-lg transition flex items-center justify-center min-w-[100px]"
+              :disabled="isLoading"
             >
-              Criar
+              <svg
+                v-if="isLoading"
+                class="animate-spin h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                ></path>
+              </svg>
+              <span v-else>Criar</span>
             </button>
           </div>
         </form>
       </div>
     </div>
+
+    <!-- Modal de Confirmação de Exclusão -->
+    <div v-if="isDeleteModalOpen" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+      <div class="bg-white p-6 rounded-xl shadow-lg max-w-sm w-full space-y-4">
+        <h2 class="text-lg font-bold text-gray-800">Excluir Tarefa?</h2>
+        <p class="text-sm text-gray-600">Tem certeza que deseja excluir a tarefa <strong>{{ taskIdToDelete?.title }}</strong>?</p>
+        <div class="flex justify-end gap-3 mt-4">
+          <button
+            class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm"
+            @click="isDeleteModalOpen = false"
+          >
+            Cancelar
+          </button>
+          <button
+            @click="proceedDeleteTask"
+            :disabled="isDeleting"
+            class="py-2 px-4 bg-red-600 hover:bg-red-700 text-white rounded-lg flex items-center justify-center gap-2 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <svg
+              v-if="isDeleting"
+              class="animate-spin h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8z"
+              ></path>
+            </svg>
+            <span>{{ isDeleting ? 'Excluindo...' : 'Excluir' }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -124,6 +191,10 @@ import { getTasks, updateTask, createTask as apiCreate, deleteTask as apiDelete 
 
 const tasks = ref([])
 const isModalOpen = ref(false)
+const isLoading = ref(false)
+const isDeleteModalOpen = ref(false)
+const taskIdToDelete = ref(null)
+const isDeleting = ref(false)
 const newTask = ref({
   title: '',
   description: ''
@@ -132,6 +203,7 @@ const newTask = ref({
 const fetchTasks = async () => {
   try {
     tasks.value = await getTasks()
+    console.log('tasks', tasks.value)
   } catch (error) {
     console.error('Erro ao carregar tasks', error)
   }
@@ -162,12 +234,15 @@ const closeModal = () => {
 const createTask = async () => {
   if (newTask.value.title.trim() === '') return
 
+  isLoading.value = true
   try {
     await apiCreate(newTask.value)
     await fetchTasks()
     closeModal()
   } catch (error) {
     console.error('Erro ao criar tarefa', error)
+  } finally {
+    isLoading.value = false
   }
 }
 
@@ -221,8 +296,39 @@ const handleDrop = (event) => {
 }
 
 const deleteTask = async (id) => {
-  await apiDelete(id)
-  tasks.value = tasks.value.filter(t => t.id !== id)
+  const confirmDelete = window.confirm('Tem certeza que deseja excluir esta tarefa?')
+
+  if (!confirmDelete) return
+
+  try {
+    await apiDelete(id)
+    tasks.value = tasks.value.filter(t => t.id !== id)
+  } catch (error) {
+    console.error('Erro ao excluir tarefa', error)
+  }
+}
+
+const proceedDeleteTask = async () => {
+  if (!taskIdToDelete.value?.id) return
+
+  isDeleting.value = true
+
+  try {
+    await apiDelete(taskIdToDelete.value.id)
+    tasks.value = tasks.value.filter(t => t.id !== taskIdToDelete.value.id)
+  } catch (error) {
+    console.error('Erro ao excluir tarefa', error)
+  } finally {
+    isDeleteModalOpen.value = false
+    isDeleting.value = false
+    taskIdToDelete.value = null
+    fetchTasks()
+  }
+}
+
+const confirmDeleteTask = (id) => {
+  taskIdToDelete.value = id
+  isDeleteModalOpen.value = true
 }
 
 const getStatusLabel = (status) => {
