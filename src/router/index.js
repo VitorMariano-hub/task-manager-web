@@ -18,7 +18,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory('/'),
   routes
 })
 
@@ -34,6 +34,6 @@ router.beforeEach((to, from, next) => {
     } else {
       next()
     }
-  })
-  
-  export default router
+})
+
+export default router
