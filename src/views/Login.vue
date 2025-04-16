@@ -59,10 +59,6 @@
             </button>
         </div>
       </form>
-      <!-- Link para cadastro (opcional) -->
-      <div class="mt-4 text-center">
-        <p class="text-sm text-gray-600">Não tem uma conta? <router-link to="/register" class="text-indigo-600 hover:text-indigo-700">Cadastre-se</router-link></p>
-      </div>
     </div>
   </div>
 </template>

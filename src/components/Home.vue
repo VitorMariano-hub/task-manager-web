@@ -159,6 +159,22 @@
       </div>
     </div>
 
+    <!-- Modal de Erro -->
+    <div v-if="isErrorModalOpen" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+      <div class="bg-slate-800 p-6 rounded-xl shadow-lg max-w-sm w-full space-y-4">
+        <h2 class="text-xl font-bold text-white">Atenção</h2>
+        <p class="text-md text-slate-300">{{ errorMessage }}</p>
+        <div class="flex justify-end gap-3 mt-4">
+          <button
+            class="px-4 py-2 rounded-lg bg-slate-600 hover:bg-slate-700 text-white text-sm"
+            @click="closeErrorModal"
+          >
+            Fechar
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -199,6 +215,8 @@ const isLoading = ref(false)
 const isDeleteModalOpen = ref(false)
 const taskIdToDelete = ref(null)
 const isDeleting = ref(false)
+const isErrorModalOpen = ref(false)
+const errorMessage = ref('')
 const newTask = ref({
   title: '',
   description: ''
@@ -245,10 +263,13 @@ const createTask = async () => {
     closeModal()
   } catch (error) {
     console.error('Erro ao criar tarefa', error)
+    const errorMessage = error.response?.data?.message || 'Erro ao criar tarefa. Tente novamente mais tarde.'
+    openErrorModal(errorMessage)
   } finally {
     isLoading.value = false
   }
 }
+
 
 
 const onDragStart = (event, id) => {
@@ -345,6 +366,14 @@ const canMoveTask = (event, currentStatus) => {
   return currentStatus !== 'completed'
 }
 
+const openErrorModal = (message) => {
+  errorMessage.value = message
+  isErrorModalOpen.value = true
+}
+
+const closeErrorModal = () => {
+  isErrorModalOpen.value = false
+}
 
 fetchTasks()
 </script>
