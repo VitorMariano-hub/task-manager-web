@@ -1,7 +1,7 @@
 <template>
   <div class="p-6 bg-gradient-to-br from-slate-800 via-slate-600 to-slate-700 min-h-screen flex justify-center items-center">
     <div class="bg-white p-8 rounded-lg shadow-lg w-96">
-      <h2 class="text-2xl font-bold text-center text-slate-800 mb-6">Login</h2>
+      <img src="/taskmanager.png" class="w-16 h-16 mx-auto mb-6">
       <form @submit.prevent="handleLogin">
         <!-- Input de email -->
         <div class="mb-4">

@@ -24,7 +24,7 @@
           @click="openModal"
           class="mt-2 w-full py-2 text-sm bg-teal-500 hover:bg-teal-700 text-white rounded-lg transition"
         >
-          + Nova Tarefa
+          + Nova Tarefa Diária
         </button>
         <!-- Lista de tarefas -->
         <div class="flex-1 overflow-y-auto custom-scrollbar p-2" :style="{ maxHeight: 'calc(100vh - 200px)' }">
@@ -32,12 +32,13 @@
             :list="group"
             :group="{ name: 'tasks' }"
             item-key="id"
-            class="space-y-4"
+            :disabled="status === 'completed'"
           >
             <template #item="{ element }">
               <div :data-id="element.id">
                 <TaskItem
                   :task="element"
+                  :status="status"
                   @delete="confirmDeleteTask"
                   @dragstart="(e) => onDragStart(e, element.id)"
                 />
@@ -52,7 +53,7 @@
     <div v-if="isModalOpen" class="fixed inset-0 flex items-center justify-center">
       <!-- Modal com borda suave e sombra -->
       <div class="bg-slate-700 p-6 rounded-2xl shadow-md w-96 ">
-        <h2 class="text-lg font-bold text-white mb-4">Nova Tarefa</h2>
+        <h2 class="text-lg font-bold text-white mb-4">Nova Tarefa Diária</h2>
         <form @submit.prevent="createTask">
           <div class="mb-4">
             <label for="taskName" class="block text-sm font-semibold text-white">Titulo da Tarefa</label>
@@ -181,6 +182,9 @@
     background: #f1f1f1;
     border-radius: 10px;
   }
+  .completed-card {
+    cursor: default;
+  }
 </style>
 
 <script setup>
@@ -210,9 +214,9 @@ const fetchTasks = async () => {
 }
 
 const statuses = [
-  { key: 'pending', label: 'Pending' },
-  { key: 'in_progress', label: 'In Progress' },
-  { key: 'completed', label: 'Completed' }
+  { key: 'pending', label: 'Pendente' },
+  { key: 'in_progress', label: 'Em Progresso' },
+  { key: 'completed', label: 'Concluída' }
 ]
 
 const groupedTasks = computed(() => {
@@ -335,6 +339,12 @@ const getStatusLabel = (status) => {
   const found = statuses.find(s => s.key === status)
   return found ? found.label : status
 }
+
+const canMoveTask = (event, currentStatus) => {
+  console.log('currentStatus', currentStatus)
+  return currentStatus !== 'completed'
+}
+
 
 fetchTasks()
 </script>

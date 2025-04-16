@@ -1,9 +1,10 @@
 <!-- src/components/Sidebar.vue -->
 <template>
   <aside class="w-64 bg-slate-900 text-white h-screen fixed top-0 left-0 flex flex-col shadow-lg">
-    <div class="p-6 font-bold text-2xl border-b border-slate-700">
-      Task Manager
-    </div>
+      <div class="p-4 border-b border-slate-700 flex gap-2">
+  <img src="/taskmanager.png" class="w-8 h-8" alt="Logo Task Manager">
+  <span class="text-md font-bold self-end">Daily Task Manager</span>
+</div>
 
     <nav class="flex-1 p-4 space-y-4">
       <button
@@ -19,7 +20,7 @@
       <button
         @click="logout"
         :disabled="isLoggingOut"
-        class="w-full text-left px-4 py-2 bg-red-500 hover:bg-red-600 rounded text-white transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        class="w-full text-left px-4 py-2 bg-slate-600 hover:bg-red-600 rounded text-white transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <svg
           v-if="isLoggingOut"
