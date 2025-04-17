@@ -382,6 +382,5 @@ const openErrorModal = (message) => {
 const closeErrorModal = () => {
   isErrorModalOpen.value = false
 }
-
 fetchTasks()
 </script>
