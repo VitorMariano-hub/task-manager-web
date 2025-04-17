@@ -22,13 +22,21 @@
         <button
           v-if="status === 'pending'"
           @click="openModal"
-          class="mt-2 w-full py-2 text-sm bg-teal-500 hover:bg-teal-700 text-white rounded-lg transition"
+          class="mt-2 w-full py-2 text-sm bg-teal-500 hover:bg-teal-700 text-white rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+          :disabled="isTasksLoading"
         >
           + Nova Tarefa Diária
         </button>
         <!-- Lista de tarefas -->
         <div class="flex-1 overflow-y-auto custom-scrollbar p-2" :style="{ maxHeight: 'calc(100vh - 200px)' }">
+          <div v-if="isTasksLoading" class="flex justify-center items-center min-h-[300px] h-full w-full">
+            <svg class="animate-spin h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+            </svg>
+          </div>
           <draggable
+            v-else
             :list="group"
             :group="{ name: 'tasks' }"
             item-key="id"
@@ -216,6 +224,7 @@ const isDeleteModalOpen = ref(false)
 const taskIdToDelete = ref(null)
 const isDeleting = ref(false)
 const isErrorModalOpen = ref(false)
+const isTasksLoading = ref(true)
 const errorMessage = ref('')
 const newTask = ref({
   title: '',
@@ -223,10 +232,13 @@ const newTask = ref({
 })
 
 const fetchTasks = async () => {
+  isTasksLoading.value = true
   try {
     tasks.value = await getTasks()
   } catch (error) {
     console.error('Erro ao carregar tasks', error)
+  } finally {
+    isTasksLoading.value = false
   }
 }
 
