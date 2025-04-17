@@ -281,8 +281,6 @@ const createTask = async () => {
   }
 }
 
-
-
 const onDragStart = (event, id) => {
   event.dataTransfer.setData("task-id", id)
 }
