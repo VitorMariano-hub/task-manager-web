@@ -1,8 +1,35 @@
-# Vue 3 + Vite
+# 🧩 Kanban de Tarefas - Frontend (Vue 3 + TailwindCSS)
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Este é o frontend do projeto **Kanban de Tarefas**, construído com Vue 3 em Single Page Application (SPA). Ele consome a API RESTful desenvolvida em Laravel, proporcionando uma interface moderna e responsiva para gerenciar tarefas.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## 🚀 Tecnologias
+
+- Vue 3 (Composition API)
+- Vue Router
+- TailwindCSS
+- Axios (HTTP Client)
+- Vuedraggable (Drag-and-Drop)
+
+
+## 🎯 Funcionalidades
+
+- Autenticação de usuários
+- Visualização de tarefas do dia atual
+- Criação de tarefas (máximo 10 por dia)
+- Drag-and-drop entre colunas (vuedraggable)
+- Tarefas concluídas são bloqueadas (não voltam ao fluxo anterior)
+- Modais para criação e exclusão de tarefas
+- Contador regressivo do tempo restante do dia
+
+
+## 🌐 Deploy
+
+O frontend está publicado gratuitamente na plataforma **Render**.
+
+## 🔗 Links Úteis
+
+- 🌐 App Live: [https://task-manager-web-pxgc.onrender.com](https://task-manager-web-pxgc.onrender.com)
+- 🔙 API Backend: [https://task-manager-0wdh.onrender.com/api/documentation](https://task-manager-0wdh.onrender.com/api/documentation)
 
 
 ![image](https://github.com/user-attachments/assets/f650a013-8f2d-46c3-8d21-e08b4511f3a1)
